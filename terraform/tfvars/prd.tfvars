@@ -1,0 +1,1 @@
+api_gateway_name = "assistente-private-api"

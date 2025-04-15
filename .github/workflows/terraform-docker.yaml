@@ -1,0 +1,59 @@
+name: Docker and Terraform CI/CD
+
+on:
+  push:
+    branches:
+      - main  # ou a branch que você deseja monitorar
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    # Step 1: Checar o código fonte
+    - name: Checkout Code
+      uses: actions/checkout@v2
+    
+    # Step 2: Configurar Docker Buildx
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+    
+    # Step 3: Configurar AWS CLI (para interagir com o ECR)
+    - name: Set up AWS CLI
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1  # ou a sua região
+
+    # Step 4: Logar no ECR
+    - name: Login to Amazon ECR
+      run: |
+        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
+    
+    # Step 5: Construir a imagem Docker
+    - name: Build Docker image
+      run: |
+        docker build -t emotion-repo-ecr .
+        docker tag emotion-repo-ecr:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/emotion-repo-ecr:${{ PR_ID }}
+
+    # Step 6: Enviar imagem para o ECR
+    - name: Push Docker image to ECR
+      run: |
+        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/emotion-repo-ecr:${{ PR_ID }}
+
+    # Step 7: Configurar o Terraform
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v1
+      
+    # Step 8: Inicializar o Terraform
+    - name: Terraform init
+      run: terraform init
+    
+    # Step 9: Plan Terraform
+    - name: Terraform plan
+      run: terraform plan
+    
+    # Step 10: Aplicar Terraform (Se necessário)
+    - name: Terraform apply
+      run: terraform apply -auto-approve

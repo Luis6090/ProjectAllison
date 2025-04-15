@@ -1,0 +1,32 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "ecr:ListImages",
+        "ecr:GetRepositoryPolicy",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:GetAuthorizationToken",
+        "ecr:DescribeRepositories",
+        "ecr:DescribeImages",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:BatchGetImage",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "sqs:GetQueueUrl",
+        "sqs:SendMessage",
+        "sqs:GetQueueAttributes",
+        "sqs:ReceiveMessage",
+        "sqs:DeleteMessage",
+        "kinesis:PutRecord",
+        "kinesis:PutRecords",
+        "execute-api:ManageConnections",
+        "bedrock:InvokeModel",
+        "bedrock:InvokeModelWithResponseStream",
+        "ec2:CreateNetworkInterface"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
