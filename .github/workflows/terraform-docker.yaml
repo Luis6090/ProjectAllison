@@ -3,7 +3,7 @@ name: Docker and Terraform CI/CD
 on:
   push:
     branches:
-      - main  # ou a branch que você deseja monitorar
+      - master  # ou a branch que você deseja monitorar
 
 jobs:
   build_and_deploy:
