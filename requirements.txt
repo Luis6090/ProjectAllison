@@ -2,3 +2,5 @@ pydantic
 pydantic-settings
 langchain-openai
 langchain
+gunicorn
+flask
