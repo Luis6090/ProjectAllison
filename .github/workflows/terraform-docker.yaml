@@ -35,12 +35,12 @@ jobs:
     - name: Build Docker image
       run: |
         docker build -t emotion-repo-ecr .
-        docker tag emotion-repo-ecr:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/emotion-repo-ecr:${ GITHUB_SHA }
+        docker tag emotion-repo-ecr:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/emotion-repo-ecr:${{ GITHUB_SHA }}
 
     # Step 6: Enviar imagem para o ECR
     - name: Push Docker image to ECR
       run: |
-        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/emotion-repo-ecr:${ GITHUB_SHA }
+        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/emotion-repo-ecr:${{ GITHUB_SHA }}
 
     # Step 7: Configurar o Terraform
     - name: Set up Terraform

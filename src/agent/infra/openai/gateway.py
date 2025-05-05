@@ -24,6 +24,7 @@ class GatewayOpenAi:
         # Initialize the LLM client with the settings
 
         llm = ChatOpenAI(
+            base_url = settings.api_base_url,
             api_key=settings.openai_api_key,
             model_name=settings.openai_model,
             temperature=0.5,

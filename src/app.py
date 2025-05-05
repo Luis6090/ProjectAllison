@@ -29,8 +29,13 @@ if __name__ == "__main__":
         "body": "{\"message\": \"I am happy\"}"
     }
     
+#     event ={
+#         "body": json.dumps(body), 
+#     } 
+
     event ={
-        "body": json.dumps(body), 
+        "statusCode": 200,
+        "body": "{\"message\": \"I am happy\"}"
     }
     
     print(get_emotion_chain(event, None).get("emotions"))
